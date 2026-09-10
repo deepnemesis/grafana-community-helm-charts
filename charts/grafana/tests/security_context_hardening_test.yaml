@@ -8,6 +8,12 @@ tests:
           path: spec.securityContext.runAsNonRoot
           value: true
       - equal:
+          path: spec.securityContext.runAsUser
+          value: 472
+      - equal:
+          path: spec.securityContext.runAsGroup
+          value: 472
+      - equal:
           path: spec.securityContext.seccompProfile.type
           value: RuntimeDefault
 
@@ -16,6 +22,9 @@ tests:
     asserts:
       - equal:
           path: spec.containers[0].securityContext.allowPrivilegeEscalation
+          value: false
+      - equal:
+          path: spec.containers[0].securityContext.privileged
           value: false
       - equal:
           path: spec.containers[0].securityContext.readOnlyRootFilesystem
@@ -52,10 +61,16 @@ tests:
           path: spec.template.spec.securityContext.runAsNonRoot
           value: true
       - equal:
+          path: spec.template.spec.securityContext.runAsUser
+          value: 1000
+      - equal:
+          path: spec.template.spec.securityContext.runAsGroup
+          value: 1000
+      - equal:
           path: spec.template.spec.securityContext.seccompProfile.type
           value: RuntimeDefault
 
-  - it: should set runAsNonRoot and readOnlyRootFilesystem on the image-renderer containerSecurityContext by default
+  - it: should set a fully hardened containerSecurityContext on the image-renderer container by default
     template: image-renderer-deployment.yaml
     set:
       imageRenderer.enabled: true
@@ -64,8 +79,18 @@ tests:
           path: spec.template.spec.containers[0].securityContext.runAsNonRoot
           value: true
       - equal:
-          path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
-          value: true
+          path: spec.template.spec.containers[0].securityContext.allowPrivilegeEscalation
+          value: false
       - equal:
           path: spec.template.spec.containers[0].securityContext.privileged
           value: false
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
+          value: true
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.capabilities.drop
+          value:
+            - ALL
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.seccompProfile.type
+          value: RuntimeDefault

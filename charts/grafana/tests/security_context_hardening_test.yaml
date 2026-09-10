@@ -51,6 +51,9 @@ tests:
       - equal:
           path: spec.template.spec.securityContext.runAsNonRoot
           value: true
+      - equal:
+          path: spec.template.spec.securityContext.seccompProfile.type
+          value: RuntimeDefault
 
   - it: should set runAsNonRoot and readOnlyRootFilesystem on the image-renderer containerSecurityContext by default
     template: image-renderer-deployment.yaml

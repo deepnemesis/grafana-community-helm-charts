@@ -1650,6 +1650,7 @@ imageRenderer:
     capabilities:
       drop: ['ALL']
     allowPrivilegeEscalation: false
+    privileged: false
     readOnlyRootFilesystem: true
   ## image-renderer pod annotation
   podAnnotations: {}

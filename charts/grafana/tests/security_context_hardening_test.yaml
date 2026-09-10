@@ -66,3 +66,6 @@ tests:
       - equal:
           path: spec.template.spec.containers[0].securityContext.readOnlyRootFilesystem
           value: true
+      - equal:
+          path: spec.template.spec.containers[0].securityContext.privileged
+          value: false

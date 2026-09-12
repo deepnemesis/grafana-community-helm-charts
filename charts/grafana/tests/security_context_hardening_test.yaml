@@ -3,6 +3,8 @@ suite: security context hardening defaults
 tests:
   - it: should set a non-root podSecurityContext for the helm test framework pod by default
     template: tests/test.yaml
+    set:
+      testFramework.enabled: true
     asserts:
       - equal:
           path: spec.securityContext.runAsNonRoot
@@ -19,6 +21,8 @@ tests:
 
   - it: should set a hardened containerSecurityContext for the helm test framework container by default
     template: tests/test.yaml
+    set:
+      testFramework.enabled: true
     asserts:
       - equal:
           path: spec.containers[0].securityContext.allowPrivilegeEscalation
